@@ -10,6 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+app.use(express.static('./Develop/public'));
 
 // GET route
 app.get('/api/notes', (req, res) => {
@@ -50,6 +51,12 @@ function validateNote(note) {
     return true;
 };
 
+app.delete("/api/notes/:id", (req, res) => {
+    deleteNote(req.params.id, notes)
+      .then(createNewNote(req.body, notes))
+      .then(res.json());
+  });
+
 // html routes
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/index.html'))
@@ -61,6 +68,7 @@ app.get('/notes', (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, './Develop/public/index.html'));
 });
+
 
 // listening route
 app.listen(PORT, () => {
