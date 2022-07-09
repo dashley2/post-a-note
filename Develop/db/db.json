@@ -6,16 +6,12 @@
   },
   {
     "title": "Appointment",
-    "text": "Description"
-  },
-  {
-    "title": "Appointment",
     "text": "Description",
     "id": "2"
   },
   {
-    "title": "Appointment",
-    "text": "Description",
+    "title": "Test",
+    "text": "Test",
     "id": "3"
   }
 ]

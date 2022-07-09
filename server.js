@@ -17,6 +17,17 @@ app.get('/api/notes', (req, res) => {
     res.json(notes);
 });
 
+// GET route for id parameter
+app.get('/api/notes/:id', (req, res) => {
+    const result = findById(req.params.id, notes);
+    if (result) {
+        res.json(result);
+      // if ID does not correspond with the data, return 'Not Found' error
+      } else {
+        res.sendStatus(404);
+      }
+  });
+
 // POST route
 app.post("/api/notes", (req, res) => {
     req.body.id = notes.length.toString();
@@ -27,6 +38,12 @@ app.post("/api/notes", (req, res) => {
       res.json(note);
     }
   });
+
+// Route to delete note by ID
+app.delete("/api/notes/:id", (req, res) => {
+    deleteNote(req.params.id, notes)
+    res.json(true);
+});
 
 // Function to create new note and add to db.json
 function createNewNote(body, notesArray) {
@@ -40,6 +57,29 @@ function createNewNote(body, notesArray) {
     return note;
 };
 
+// Function to take id and array of notes to return single object
+function findById(id, notesArray) {
+    const result = notesArray.filter(note => note.id === id)[0];
+    return result;
+};
+
+// Function to delete note by id parameter
+function deleteNote(id, notesArray) {
+    for (let i = 0; i < notesArray.length; i++) {
+        let note = notesArray[i];
+
+        if (note.id == id) {
+            notesArray.splice(i, 1);
+            fs.writeFileSync(
+                path.join(__dirname, './Develop/db/db.json'),
+                JSON.stringify(notesArray, null, 2)
+            );
+
+            break;
+        }
+    }
+}
+
 // Function to validate incoming data
 function validateNote(note) {
     if (!note.title || typeof note.title !== "string") {
@@ -51,11 +91,6 @@ function validateNote(note) {
     return true;
 };
 
-app.delete("/api/notes/:id", (req, res) => {
-    deleteNote(req.params.id, notes)
-      .then(createNewNote(req.body, notes))
-      .then(res.json());
-  });
 
 // html routes
 app.get('/', (req, res) => {
