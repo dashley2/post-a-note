@@ -1,17 +1,12 @@
 [
   {
-    "title": "Test Title",
-    "text": "Test text",
+    "title": "Invoices",
+    "text": "Process vendor payments",
+    "id": "0"
+  },
+  {
+    "title": "Follow-up",
+    "text": "Reach out to prospects",
     "id": "1"
-  },
-  {
-    "title": "Appointment",
-    "text": "Description",
-    "id": "2"
-  },
-  {
-    "title": "A",
-    "text": "A",
-    "id": "3"
   }
 ]
